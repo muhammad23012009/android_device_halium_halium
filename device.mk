@@ -48,3 +48,24 @@ PRODUCT_PACKAGES += \
 # Soong
 PRODUCT_SOONG_NAMESPACES += \
     $(LOCAL_PATH)
+
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/rootdir/system/etc/rqbalance_config.xml:system/etc/rqbalance_config.xml
+
+# Ubuntu Touch additional properties
+PRODUCT_PROPERTY_OVERRIDES += \
+    ubuntu.widi.supported=1
+
+PRODUCT_PACKAGES += \
+    powerswitch
+
+# Enable libpowerswitch (RQBalance controller)
+PRODUCT_PROPERTY_OVERRIDES += \
+ifeq ($(PRODUCT_DEVICE),halium_arm)
+    ubuntu.booster.dl=/system/lib/libpowerswitch.so
+endif
+ifeq ($(PRODUCT_DEVICE),halium_arm64)
+    ubunto.booster.dl=/system/lib64/libpowerswitch.so
+endif
+    ubuntu.booster.enable=set_screen_on \
+    ubuntu.booster.disable=set_screen_off
